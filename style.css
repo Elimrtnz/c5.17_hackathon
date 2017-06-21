@@ -1,0 +1,17 @@
+#gameBoard{
+    width: 800px;
+    height: 800px;
+}
+div div{
+    height: 95px;
+    width: 95px;
+    background: yellow;
+    display: inline-block;
+    border: solid black 2px;
+}
+.player1{
+    background: white;
+}
+.player2{
+    background: green;
+}
