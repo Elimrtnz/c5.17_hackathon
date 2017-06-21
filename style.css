@@ -1,0 +1,35 @@
+body{
+    /*margin-left: 500px;*/
+    position: relative;
+
+}
+
+#gameBoard{
+    width: 55%;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    border: solid brown 5px;
+}
+div div{
+    width: 11%;
+    height: 95px;
+    background-color: green;
+    display: inline-block;
+    border: solid black 1px;
+}
+.player1{
+    background-color: black;
+}
+.player2{
+    background-color: white;
+}
+
+#stats{
+    width: 30%;
+    height: 800px;
+    background-color: blue;
+    border: solid black 1px;
+    display: inline-block;
+
+}

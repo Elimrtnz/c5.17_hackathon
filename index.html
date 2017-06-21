@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stats"></div>
+<div id="gameBoard"></div>
+</body>
+<script>
+    var turn = 'player1';
+    var array = [];
+    var classAdd = '';
+    var clickable = false;
+    //array[0] = [div0 ,div1, div2, div3]
+    //array[1] = [div0 ,div1, div2, div3]
+    //array[2] = [div0 ,div1, div2, div3]
+    //array[3] = [div0 ,div1, div2, div3]
+
+    function createGame(){
+        var temp_array = [];
+        for (var i =0; i <= 7; i++){
+            for(var j = 0; j <= 7; j++){
+                classAdd = 'empty' + i + j;
+                var newSquare = $('<div>').addClass(classAdd).appendTo('#gameBoard');
+                $(newSquare).addClass('square');
+                temp_array.push(newSquare);
+            }
+            array.push(temp_array);
+            temp_array = [];
+        }
+    }
+    function startConditions(){
+        $('.empty33').toggleClass('player1');
+        $('.empty34').toggleClass('player2');
+        $('.empty44').toggleClass('player1');
+        $('.empty43').toggleClass('player2');
+        turn = 'player1';
+    }
+    function changeColor(){
+        //if(turn === .empty(i+2)(j))
+        $(this).toggleClass(turn);
+        if(turn === 'player1'){
+            turn = 'player2';
+        }
+        else{
+            turn = 'player1';
+        }
+
+        console.log('You clicked this div: ' + $(this).attr('class'));
+
+    }
+
+    $(document).ready(function(){
+        createGame();
+        startConditions();
+        //isClickable();
+        $('.square').on('click', changeColor);
+    });
+</script>
+</html>
