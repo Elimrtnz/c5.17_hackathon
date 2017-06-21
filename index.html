@@ -14,7 +14,9 @@
     var turn = 'player1';
     var array = [];
     var classId = '';
+    var toggleTurn = 0;
     var squaresLeft = 60;
+
 
     function createGame(){
         var temp_array = [];
@@ -31,53 +33,138 @@
         }
     }
     function startConditions(){
-        $('#33').toggleClass('player1');
+        $('#33').addClass('player1');
         $('#33').removeClass('square');
-        $('#34').toggleClass('player2');
+        $('#34').addClass('player2');
         $('#34').removeClass('square');
-        $('#44').toggleClass('player1');
+        $('#44').addClass('player1');
         $('#44').removeClass('square');
-        $('#43').toggleClass('player2');
-        $('#43').toggleClass('square');
+        $('#43').addClass('player2');
+        $('#43').removeClass('square');
     }
     function makeMove(){
+        toggleTurn = 0;
         var tempI = $(this).attr('id').charAt(0);
         var tempJ = $(this).attr('id').charAt(1);
-        console.log(tempI);
-        console.log(tempJ);
-        for(var i = -1; i < 2; i++){
-            for(var j = -1; j < 2; j++){
-                var temp1 = parseInt($(this).attr('id').charAt(0));
-                var temp2 = parseInt($(this).attr('id').charAt(1));
-                var tempid = '#' + (temp1 + i) + (temp2 + j);
-                //if statement checks if classes do NOT match \\ avoids empty spaces \\ avoids your own squares
-                if(turn === 'player1'){
-                    if($(this).attr('class') !== $(tempid).attr('class') && $(tempid).attr('class') !== 'square' && $(tempid).attr('class') !== 'player1'){
-                        $(this).removeClass('square');
-                        $(this).addClass('player1');
-                        turn = 'player2';
-                            console.log('Player 1 ID is: ' + $(this).attr('id'));
-                            console.log('Player 1 Class is: ' + $(this).attr('class'));
-
-                    }
-                }
-                //if statement checks if classes do NOT match \\ avoids empty spaces \\ avoids your own squares
-                else if(turn === 'player2'){
-                    if($(this).attr('class') !== $(tempid).attr('class') && $(tempid).attr('class') !== 'square' && $(tempid).attr('class') !== 'player2'){
-                        $(this).removeClass('square');
-                        $(this).addClass('player2');
-                        turn = 'player1';
-                            console.log('Player 2 ID is: ' + $(this).attr('id'));
-                            console.log('Player 2 Class is: ' + $(this).attr('class'));
+        var firstLoop = 0;
+        if(turn === 'player1')
+            for(var i = -1; i < 2; i++) {
+                for (var j = -1; j < 2; j++) {
+                    var temp1 = parseInt($(this).attr('id').charAt(0));
+                    var temp2 = parseInt($(this).attr('id').charAt(1));
+                    var tempId = '#' + (temp1 + i) + (temp2 + j);
+                    if (turn === 'player1' ) {
+                        if ($(tempId).attr('class') === 'player2') {
+                            $(tempId).addClass('marked');
+                            temp1 = temp1 + i + i;
+                            temp2 = temp2 + j + j;
+                            var tempId2 = '#' + temp1 + temp2;
+                            if ($(tempId2).attr('class') === 'player1') {
+                                $(this).removeClass('square');
+                                $(this).addClass('player1');
+                                $(tempId).removeClass('square');
+                                $(tempId).removeClass('player2');
+                                $(tempId).addClass('player1');
+                                $('.marked').removeClass('marked');
+                                if(i===1 & j === 1) {
+                                    turn = 'player2';
+                                    firstLoop += 1;
+                                }
+                            }
+                            else if ($(tempId2).attr('class') === 'player2') {
+                                $(tempId2).addClass('marked');
+                                for (var k = 0; k < array.length; k++) {
+                                    $(tempId2).addClass('marked');
+                                    temp1 = temp1 + i;
+                                    temp2 = temp2 + j;
+                                    tempId2 = '#' + temp1 + temp2;
+                                    if ($(tempId2).attr('class') === 'player2') {
+                                        $(tempId2).addClass('marked');
+                                    }
+                                    else if ($(tempId2).attr('class') === 'player1') {
+                                        $('.marked').removeClass('square');
+                                        $('.marked').removeClass('player2');
+                                        $('.marked').addClass('player1');
+                                        $('.marked').removeClass('marked');
+                                        $(tempId2).removeClass('square');
+                                        $(tempId2).removeClass('player2');
+                                        $(tempId2).addClass('player1');
+                                        $(this).removeClass('square');
+                                        $(this).addClass('player1');
+                                        if(i===1 & j === 1) {
+                                            turn = 'player2';
+                                            firstLoop +=1;
+                                        }
+                                    }
+                                }
+                            }
                         }
+                        else if(i === 1 && j === 1) {
+                            turn = 'player2';
+                            firstLoop += 1;
+                        }
+                        $('.marked').removeClass('marked');
+                    }
+                }
+        }
+        else if(turn === 'player2' && firstLoop === 0) {
+            for (var i = -1; i < 2; i++) {
+                for (var j = -1; j < 2; j++) {
+                    var temp1 = parseInt($(this).attr('id').charAt(0));
+                    var temp2 = parseInt($(this).attr('id').charAt(1));
+                    var tempId = '#' + (temp1 + i) + (temp2 + j);
+                    if (turn === 'player2') {
+                        if ($(tempId).attr('class') === 'player1') {
+                            $(tempId).addClass('marked');
+                            temp1 = temp1 + i + i;
+                            temp2 = temp2 + j + j;
+                            tempId2 = '#' + temp1 + temp2;
+                            if ($(tempId2).attr('class') === 'player2') {
+                                $(this).removeClass('square');
+                                $(this).addClass('player2');
+                                $(tempId).removeClass('square');
+                                $(tempId).removeClass('player1');
+                                $(tempId).addClass('player2');
+                                $('.marked').removeClass('marked');
+                                if(i===1 & j === 1) {
+                                    turn = 'player1';
+                                }
+                            }
+                            else if ($(tempId2).attr('class') === 'player1') {
+                                $(tempId2).addClass('marked');
+                                for (var l = 0; l < array.length; l++) {
+                                    temp1 = temp1 + i;
+                                    temp2 = temp2 + j;
+                                    tempId2 = '#' + temp1 + temp2;
+                                    if ($(tempId2).attr('class') === 'player1') {
+                                        $(tempId2).addClass('marked');
+                                    }
+                                    else if ($(tempId2).attr('class') === 'player2') {
+                                        $('.marked').removeClass('square');
+                                        $('.marked').removeClass('player1');
+                                        $('.marked').addClass('player2');
+                                        $('.marked').removeClass('marked');
+                                        $(tempId2).removeClass('square');
+                                        $(tempId2).removeClass('player1');
+                                        $(tempId2).addClass('player2');
+                                        $(this).removeClass('square');
+                                        $(this).addClass('player2');
+                                        if(i===1 & j === 1) {
+                                            turn = 'player1';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(i === 1 && j === 1){
+                            turn = 'player1'
+                        }
+                        $('.marked').removeClass('marked');
                     }
                 }
 
-
-                console.log(tempid);
             }
-
-
+        }
 
 
     }
@@ -90,45 +177,3 @@
     });
 </script>
 </html>
-
-<!--if(turn === 'player1'){
-if($(this).attr('class') !== $(tempid).attr('class') && $(tempid).attr('class') !== 'square' && $(tempid).attr('class') !== 'player1'){
-$(this).removeClass('square');
-$(this).addClass('player1');
-}
-}
-//if statement checks if classes do NOT match \\ avoids empty spaces \\ avoids your own squares
-else if(turn === 'player2'){
-if($(this).attr('class') !== $(tempid).attr('class') && $(tempid).attr('class') !== 'square' && $(tempid).attr('class') !== 'player2'){
-$(this).removeClass('square');
-$(this).addClass('player2');
-}
-}
-
-<!--while($(this).attr('class') !== $(tempid).attr('class') && $(tempid).attr('class') !== 'square'){
-$(tempid).attr('class').replace('square', turn);
-$(tempid).addClass('marked');
-temp1 += i;
-temp2 += j;
-tempid = '#' + (temp1 + i) + (temp2 + j);
-if($(this).attr('class') === $(tempid).attr('class')){
-$('.marked').attr('class').replace('square', turn);
-$(this).toggleClass(turn);
-}
-
-}
-
-if($(this).attr('class') === $(tempid).attr('class')){
-$('.marked').toggleClass('turn');
-$(this).toggleClass(turn);
-if(turn === 'player1'){
-turn = 'player2';
-console.log('Player 1 ID is: ' + $(this).attr('id'));
-console.log('Player 1 Class is: ' + $(this).attr('class'));
-}
-else{
-turn = 'player1';
-console.log('Player 2 ID is: ' + $(this).attr('id'));
-console.log('Player 2 Class is: ' + $(this).attr('class'));
-}
-}-->
